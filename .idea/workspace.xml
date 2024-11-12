@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="219dec99-d356-4626-904d-4b230a01ea93" name="更改" comment="完结 v1.0" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="MybatisMapper" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="master" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "cslakcn5"
+  }
+}]]></component>
+  <component name="GitRewordedCommitMessages">
+    <option name="onto" value="d603d032f368b0dc62af832862e21c3ea0ad6489" />
+  </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/cslakcn5/jxufe-take-out.git",
+    "accountId": "ef45ef5b-d4a7-4790-bb61-6e26016b1750"
+  }
+}]]></component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="customMavenHome" value="D:\2022.3.2f1c1\Editor\apache-maven-3.9.6-bin\apache-maven-3.9.6" />
+        <option name="mavenHomeTypeForPersistence" value="CUSTOM" />
+        <option name="userSettingsFile" value="D:\2022.3.2f1c1\Editor\apache-maven-3.9.6-bin\apache-maven-3.9.6\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2k82uGJRBRzk0Sp80gRR8u7adBR" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.JxufeServeApplicationTests.contextLoads.executor": "Run",
+    "JUnit.JxufeServeApplicationTests.executor": "Run",
+    "JUnit.JxufeServeApplicationTests.test.executor": "Run",
+    "Maven.jxufe-take-out [clean].executor": "Run",
+    "Maven.jxufe-take-out [compile].executor": "Run",
+    "Maven.jxufe-take-out [install].executor": "Run",
+    "Maven.jxufe-take-out [package].executor": "Run",
+    "Maven.jxufe-take-out [test].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.SpringBootApplication.executor": "Run",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/java/class/jxufe-take-out/jxufe-serve/src/main/resources/mappers",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.stylelint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "vcs.Mercurial",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\java\class\jxufe-take-out\jxufe-serve\src\main\resources\mappers" />
+      <recent name="D:\java\class\jxufe-take-out\jxufe-serve\src\main\java\com\jxufe\controller" />
+      <recent name="D:\java\class\jxufe-take-out\jxufe-serve\src\main\java\com\jxufe" />
+      <recent name="D:\java\class\jxufe-take-out\jxufe-common\src\main\java\com\jxufe" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.jxufe.interceptor" />
+      <recent name="com.jxufe.controller.user" />
+      <recent name="com.jxufe.mappers" />
+      <recent name="com.jxufe.service.impl" />
+      <recent name="com.jxufe.service" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="SpringBootApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <module name="jxufe-serve" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.jxufe.SpringbootApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\郭智勇\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="219dec99-d356-4626-904d-4b230a01ea93" name="更改" comment="" />
+      <created>1710571691507</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1710571691507</updated>
+      <workItem from="1722651105891" duration="13533000" />
+      <workItem from="1722777718632" duration="2625000" />
+      <workItem from="1722817585846" duration="36865000" />
+      <workItem from="1722945429812" duration="70000" />
+      <workItem from="1722945926318" duration="12113000" />
+      <workItem from="1723103162013" duration="226000" />
+      <workItem from="1723106011832" duration="1075000" />
+      <workItem from="1723116729931" duration="5466000" />
+      <workItem from="1723164625931" duration="1087000" />
+      <workItem from="1723171762718" duration="3172000" />
+      <workItem from="1723174997883" duration="213000" />
+      <workItem from="1723175247574" duration="17740000" />
+      <workItem from="1723262224455" duration="565000" />
+      <workItem from="1723270653570" duration="5000" />
+      <workItem from="1723270670449" duration="32000" />
+      <workItem from="1723272204752" duration="967000" />
+      <workItem from="1723277770847" duration="77000" />
+      <workItem from="1723346538457" duration="7207000" />
+      <workItem from="1723595485952" duration="24246000" />
+      <workItem from="1723681809002" duration="7265000" />
+      <workItem from="1723705370515" duration="8060000" />
+      <workItem from="1723768754118" duration="3882000" />
+      <workItem from="1723790376981" duration="4064000" />
+      <workItem from="1723855457507" duration="1283000" />
+      <workItem from="1723857687450" duration="6949000" />
+      <workItem from="1723878568039" duration="1371000" />
+      <workItem from="1724834857926" duration="21000" />
+      <workItem from="1725330691785" duration="8958000" />
+      <workItem from="1725419236787" duration="2246000" />
+      <workItem from="1725426785121" duration="2497000" />
+      <workItem from="1725434394435" duration="17699000" />
+      <workItem from="1725522640405" duration="565000" />
+      <workItem from="1725532068872" duration="676000" />
+      <workItem from="1725586095228" duration="507000" />
+      <workItem from="1725588144608" duration="1072000" />
+      <workItem from="1725589492014" duration="110000" />
+      <workItem from="1725610741350" duration="6024000" />
+      <workItem from="1725619289389" duration="3530000" />
+      <workItem from="1725627201357" duration="8124000" />
+      <workItem from="1725673453910" duration="51758000" />
+      <workItem from="1725786120367" duration="704000" />
+      <workItem from="1725847543793" duration="18000" />
+      <workItem from="1725873435405" duration="554000" />
+      <workItem from="1726024348599" duration="2124000" />
+      <workItem from="1726043859410" duration="19032000" />
+      <workItem from="1726074488676" duration="81000" />
+      <workItem from="1726103043634" duration="4410000" />
+      <workItem from="1726119596773" duration="6490000" />
+      <workItem from="1726137505076" duration="1774000" />
+      <workItem from="1726144831433" duration="8020000" />
+      <workItem from="1726159170328" duration="1557000" />
+      <workItem from="1726189943426" duration="1052000" />
+      <workItem from="1726192207708" duration="3175000" />
+      <workItem from="1726195407842" duration="616000" />
+      <workItem from="1726196040084" duration="420000" />
+      <workItem from="1726196639161" duration="1608000" />
+      <workItem from="1726304950821" duration="322000" />
+      <workItem from="1726305510810" duration="156000" />
+      <workItem from="1726453991157" duration="1581000" />
+      <workItem from="1726463987225" duration="430000" />
+      <workItem from="1726467508911" duration="13000" />
+      <workItem from="1726481825842" duration="151000" />
+      <workItem from="1726563879922" duration="29000" />
+      <workItem from="1726760157689" duration="604000" />
+      <workItem from="1726797136149" duration="596000" />
+      <workItem from="1726839032132" duration="67000" />
+      <workItem from="1726914845402" duration="3000" />
+      <workItem from="1726920236692" duration="12000" />
+      <workItem from="1726921983048" duration="1005000" />
+      <workItem from="1726969714822" duration="6950000" />
+      <workItem from="1726995799583" duration="586000" />
+      <workItem from="1727020228615" duration="1320000" />
+      <workItem from="1727061401856" duration="81000" />
+      <workItem from="1727095365769" duration="2695000" />
+      <workItem from="1727169129337" duration="1538000" />
+      <workItem from="1727226027785" duration="69000" />
+      <workItem from="1727230180060" duration="1843000" />
+      <workItem from="1727318468538" duration="595000" />
+      <workItem from="1727347025927" duration="2268000" />
+      <workItem from="1727364147877" duration="697000" />
+      <workItem from="1727366691085" duration="15000" />
+      <workItem from="1727367654777" duration="1766000" />
+      <workItem from="1727370015071" duration="4588000" />
+      <workItem from="1727374671235" duration="50000" />
+      <workItem from="1727402163979" duration="5584000" />
+      <workItem from="1727417305057" duration="460000" />
+      <workItem from="1727430226412" duration="1584000" />
+      <workItem from="1727441077276" duration="839000" />
+      <workItem from="1727509637394" duration="24000" />
+      <workItem from="1727512510547" duration="447000" />
+      <workItem from="1727538752435" duration="5429000" />
+      <workItem from="1727575729852" duration="654000" />
+      <workItem from="1727576940414" duration="522000" />
+      <workItem from="1727590145986" duration="19000" />
+      <workItem from="1728377174714" duration="265000" />
+      <workItem from="1728566782761" duration="14010000" />
+      <workItem from="1728611732222" duration="7253000" />
+      <workItem from="1728626344637" duration="2550000" />
+      <workItem from="1728632738588" duration="5728000" />
+      <workItem from="1728643525723" duration="3139000" />
+      <workItem from="1728657134343" duration="7268000" />
+      <workItem from="1728697462824" duration="2399000" />
+      <workItem from="1728912467996" duration="825000" />
+      <workItem from="1729238027597" duration="351000" />
+      <workItem from="1729345582493" duration="1044000" />
+      <workItem from="1729519319534" duration="505000" />
+      <workItem from="1729579842740" duration="33000" />
+      <workItem from="1729584716527" duration="301000" />
+      <workItem from="1729585029497" duration="15000" />
+      <workItem from="1729591618288" duration="253000" />
+      <workItem from="1729606553976" duration="8000" />
+      <workItem from="1729691927284" duration="4733000" />
+      <workItem from="1729745674285" duration="24000" />
+      <workItem from="1729822337449" duration="12000" />
+      <workItem from="1729856281692" duration="245000" />
+      <workItem from="1729864340045" duration="16000" />
+      <workItem from="1729864406139" duration="445000" />
+      <workItem from="1729916126780" duration="1924000" />
+      <workItem from="1730353310401" duration="82000" />
+      <workItem from="1730521729462" duration="262000" />
+      <workItem from="1730536606170" duration="211000" />
+      <workItem from="1730565380581" duration="259000" />
+      <workItem from="1730565706942" duration="2267000" />
+      <workItem from="1730738104050" duration="126000" />
+      <workItem from="1730980790494" duration="882000" />
+      <workItem from="1731031224509" duration="1686000" />
+      <workItem from="1731033795188" duration="2072000" />
+      <workItem from="1731216221868" duration="89000" />
+      <workItem from="1731235927530" duration="612000" />
+      <workItem from="1731310191459" duration="865000" />
+      <workItem from="1731316083012" duration="1269000" />
+      <workItem from="1731325455047" duration="2989000" />
+      <workItem from="1731391711781" duration="1408000" />
+    </task>
+    <task id="LOCAL-00001" summary="店家端业务更新">
+      <option name="closed" value="true" />
+      <created>1725447455265</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1725447455265</updated>
+    </task>
+    <task id="LOCAL-00002" summary="用户支付完善">
+      <option name="closed" value="true" />
+      <created>1725644167947</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1725644167947</updated>
+    </task>
+    <task id="LOCAL-00003" summary="bug的完善">
+      <option name="closed" value="true" />
+      <created>1725687693669</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1725687693669</updated>
+    </task>
+    <task id="LOCAL-00004" summary="完成部分数据统计接口以及bug处理">
+      <option name="closed" value="true" />
+      <created>1725765341616</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1725765341616</updated>
+    </task>
+    <task id="LOCAL-00005" summary="完结">
+      <option name="closed" value="true" />
+      <created>1725786817547</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1725786817547</updated>
+    </task>
+    <task id="LOCAL-00006" summary="完结 v2.0">
+      <option name="closed" value="true" />
+      <created>1726190157571</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1726190157571</updated>
+    </task>
+    <task id="LOCAL-00007" summary="完结 v2.0">
+      <option name="closed" value="true" />
+      <created>1726190543504</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1726190543504</updated>
+    </task>
+    <task id="LOCAL-00008" summary="完结">
+      <option name="closed" value="true" />
+      <created>1726193738521</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1726193738521</updated>
+    </task>
+    <task id="LOCAL-00009" summary="完结 v2.0">
+      <option name="closed" value="true" />
+      <created>1726195089458</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1726195089458</updated>
+    </task>
+    <task id="LOCAL-00010" summary="完结 v0.8">
+      <option name="closed" value="true" />
+      <created>1726196727683</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1726196727683</updated>
+    </task>
+    <task id="LOCAL-00011" summary="完结 v1.0">
+      <option name="closed" value="true" />
+      <created>1731310489387</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1731310489387</updated>
+    </task>
+    <task id="LOCAL-00012" summary="完结 v1.0">
+      <option name="closed" value="true" />
+      <created>1731392942807</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1731392942807</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="github/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="店家端业务更新" />
+    <MESSAGE value="用户支付完善" />
+    <MESSAGE value="bug的完善" />
+    <MESSAGE value="完成部分数据统计接口以及bug处理" />
+    <MESSAGE value="完结" />
+    <MESSAGE value="完结 v2.0" />
+    <MESSAGE value="完结 v0.8" />
+    <MESSAGE value="完结 v1.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="完结 v1.0" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

@@ -1,0 +1,1015 @@
+Index: jxufe-serve/src/main/java/com/jxufe/controller/user/UserSetMealController.java
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/controller/user/UserSetMealController.java b/jxufe-serve/src/main/java/com/jxufe/controller/user/UserSetMealController.java
+deleted file mode 100644
+--- a/jxufe-serve/src/main/java/com/jxufe/controller/user/UserSetMealController.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ /dev/null	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
+@@ -1,32 +0,0 @@
+-package com.jxufe.controller.user;
+-
+-import com.jxufe.entity.Setmeal;
+-import com.jxufe.result.Result;
+-import lombok.extern.slf4j.Slf4j;
+-import org.springframework.web.bind.annotation.*;
+-
+-@Slf4j
+-@RestController
+-@RequestMapping("/user/setmeal")
+-public class UserSetMealController {
+-
+-    /*
+-    * 根据分类id查询餐厅
+-    * */
+-    @GetMapping("/list")
+-    public Result idQuerySetMeal(@RequestBody Setmeal setmeal){
+-
+-        log.info("正在根据分类id查询餐厅");
+-        return Result.success();
+-    }
+-
+-    /*
+-    * 根据套餐id查询包含的菜品
+-    * */
+-    @GetMapping("/dish/{id}")
+-    public Result idQuerySetDish(@PathVariable String id){
+-
+-        log.info("正在根据套餐id查询包含的菜品");
+-        return Result.success();
+-    }
+-}
+Index: jxufe-serve/src/main/java/com/jxufe/controller/user/OrderController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.controller.user;\r\n\r\nimport com.jxufe.dto.OrdersPaymentDTO;\r\nimport com.jxufe.dto.OrdersSubmitDTO;\r\nimport com.jxufe.result.PageResult;\r\nimport com.jxufe.result.Result;\r\nimport com.jxufe.service.OrderService;\r\nimport com.jxufe.vo.OrderPaymentVO;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\n@Slf4j\r\n@RestController(\"UserController\")\r\n@RequestMapping(\"/user/order\")\r\npublic class OrderController {\r\n\r\n    @Autowired\r\n    private OrderService orderService;\r\n\r\n    /*\r\n    * 用户下单\r\n    * */\r\n    @PostMapping(\"/submit\")\r\n    public Result userSubmitOrder(@RequestBody OrdersSubmitDTO ordersSubmitDTO){\r\n\r\n        log.info(\"用户正在下单\");\r\n        return Result.success(orderService.SubmitOrder(ordersSubmitDTO));\r\n    }\r\n\r\n    /**\r\n     * 用户支付\r\n     * @param dto\r\n     * @return com.jxufe.result.Result\r\n     * @author 逍遥\r\n     * @create 2024/9/6\r\n     **/\r\n    @PutMapping(\"/payment\")\r\n    public Result<OrderPaymentVO> paymentOrder(@RequestBody OrdersPaymentDTO dto){\r\n\r\n        log.info(\"用户支付\");\r\n        return Result.success(orderService.payment(dto));\r\n    }\r\n\r\n    /*\r\n    * 用户取消订单\r\n    * */\r\n    @PutMapping(\"/cancel/{id}\")\r\n    public Result cancelOrder(@PathVariable String id){\r\n\r\n        log.info(\"用户取消订单\");\r\n        orderService.cancelOrder(id);\r\n        return Result.success();\r\n    }\r\n\r\n    /*\r\n    * 用户查询订单详情\r\n    * */\r\n    @GetMapping(\"/orderDetail/{id}\")\r\n    public Result queryOrderDetail(@PathVariable String id){\r\n\r\n        log.info(\"用户查询订单详情\");\r\n        return Result.success(orderService.queryOrderDetail(id));\r\n    }\r\n\r\n    /*\r\n    * 历史订单查询\r\n    * */\r\n    @GetMapping(\"/historyOrders\")\r\n    public Result<PageResult> historyOrderQuery(String page, String pageSize, String status){\r\n\r\n        log.info(\"正在查询历史订单\");\r\n        PageResult pageResult = orderService.historyOrderQuery(page, pageSize, status);\r\n        return Result.success(pageResult);\r\n    }\r\n\r\n    /*\r\n     * 用户催单\r\n     * @param id\r\n     * @return com.jxufe.result.Result\r\n     * @author 逍遥\r\n     * @create 2024/9/7\r\n     **/\r\n    @GetMapping(\"/reminder/{id}\")\r\n    public Result reminder(@PathVariable String id){\r\n\r\n        log.info(\"订单号{}的用户正在催单\", id);\r\n        orderService.reminder(id);\r\n        return Result.success();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/controller/user/OrderController.java b/jxufe-serve/src/main/java/com/jxufe/controller/user/OrderController.java
+--- a/jxufe-serve/src/main/java/com/jxufe/controller/user/OrderController.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/controller/user/OrderController.java	(date 1726195905573)
+@@ -88,4 +88,20 @@
+         orderService.reminder(id);
+         return Result.success();
+     }
++
++    /*
++     * 用户再来一单
++     * @param id
++     * @return com.jxufe.result.Result
++     * @author 逍遥
++     * @create 2024/9/11 下午11:33
++     **/
++    @PostMapping("/repetition/{id}")
++    public Result repetition(@PathVariable String id){
++
++        log.info("用户再来一单");
++        orderService.repetition(id);
++        return Result.success();
++    }
++
+ }
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"CompilerConfiguration\">\r\n    <annotationProcessing>\r\n      <profile default=\"true\" name=\"Default\" enabled=\"true\" />\r\n      <profile name=\"Maven default annotation processors profile\" enabled=\"true\">\r\n        <sourceOutputDir name=\"target/generated-sources/annotations\" />\r\n        <sourceTestOutputDir name=\"target/generated-test-sources/test-annotations\" />\r\n        <outputRelativeToContentRoot value=\"true\" />\r\n        <module name=\"jxufe-pojo\" />\r\n        <module name=\"jxufe-serve\" />\r\n        <module name=\"jxufe-common\" />\r\n      </profile>\r\n    </annotationProcessing>\r\n  </component>\r\n  <component name=\"JavacSettings\">\r\n    <option name=\"ADDITIONAL_OPTIONS_OVERRIDE\">\r\n      <module name=\"jxufe-common\" options=\"-parameters\" />\r\n      <module name=\"jxufe-pojo\" options=\"-parameters\" />\r\n      <module name=\"jxufe-serve\" options=\"-parameters\" />\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--- a/.idea/compiler.xml	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/.idea/compiler.xml	(date 1726196386936)
+@@ -12,6 +12,7 @@
+         <module name="jxufe-common" />
+       </profile>
+     </annotationProcessing>
++    <bytecodeTargetLevel target="11" />
+   </component>
+   <component name="JavacSettings">
+     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+Index: jxufe-serve/src/main/java/com/jxufe/service/CategoryService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.service;\r\n\r\nimport com.jxufe.dto.CategoryDTO;\r\nimport com.jxufe.dto.CategoryPageDTO;\r\nimport com.jxufe.entity.Category;\r\nimport com.jxufe.result.PageResult;\r\nimport org.springframework.web.bind.annotation.PathVariable;\r\nimport org.springframework.web.bind.annotation.RequestBody;\r\n\r\nimport java.util.List;\r\n\r\npublic interface CategoryService {\r\n\r\n    PageResult<Category> categoryPageQuery(CategoryPageDTO dto);\r\n\r\n    void addCategory(CategoryDTO dto);\r\n    //类型查询分类\r\n    List<Category> categoryQuery(Integer type);\r\n\r\n    void updateCategory(CategoryDTO dto);\r\n\r\n    /**\r\n     * 启用、禁用分类\r\n     * @param status\r\n     * @return com.jxufe.result.Result\r\n     * @author 逍遥\r\n     * @create 2024/9/7\r\n     **/\r\n    void changeStatue(String status, String id);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/service/CategoryService.java b/jxufe-serve/src/main/java/com/jxufe/service/CategoryService.java
+--- a/jxufe-serve/src/main/java/com/jxufe/service/CategoryService.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/service/CategoryService.java	(date 1726195905582)
+@@ -27,4 +27,7 @@
+      * @create 2024/9/7
+      **/
+     void changeStatue(String status, String id);
++
++    //商家根据id删除分类
++    void deleteCategory(String id);
+ }
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"MavenProjectsManager\">\r\n    <option name=\"originalFiles\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/pom.xml\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" default=\"true\" project-jdk-name=\"11\" project-jdk-type=\"JavaSDK\" />\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/.idea/misc.xml	(date 1726196358578)
+@@ -8,5 +8,5 @@
+       </list>
+     </option>
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+ </project>
+\ No newline at end of file
+Index: jxufe-serve/src/main/java/com/jxufe/service/impl/CategoryImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.service.impl;\r\n\r\nimport com.jxufe.dto.CategoryDTO;\r\nimport com.jxufe.dto.CategoryPageDTO;\r\nimport com.jxufe.entity.Category;\r\nimport com.jxufe.mappers.CategoryMapper;\r\nimport com.jxufe.result.PageResult;\r\nimport com.jxufe.service.CategoryService;\r\nimport com.jxufe.vo.DishVO;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Service;\r\n\r\nimport java.time.LocalDateTime;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n@Service\r\npublic class CategoryImpl implements CategoryService {\r\n\r\n\r\n    @Autowired\r\n    private CategoryMapper categoryMapper;\r\n\r\n    /*\r\n    * 分类分页查询\r\n    * */\r\n    @Override\r\n    public PageResult<Category> categoryPageQuery(CategoryPageDTO dto) {\r\n\r\n        String page = String.valueOf((Integer.parseInt(dto.getPage()) - 1) * Integer.parseInt(dto.getPageSize()));\r\n        Integer pageSize = Integer.valueOf(dto.getPageSize()) ;\r\n        Integer realPage = Integer.valueOf(page);\r\n        ArrayList<Category> list = categoryMapper.pageQueryCategory(pageSize, realPage, dto.getName(), dto.getType());\r\n        Long total = categoryMapper.queryCategory(dto);\r\n        return new PageResult<>(total, list);\r\n    }\r\n\r\n    /*\r\n     * 增加分类\r\n     * */\r\n    @Override\r\n    public void addCategory(CategoryDTO dto) {\r\n        List<Category> list = categoryMapper.queryAllCategort();\r\n        for(Category category : list){\r\n            if(dto.getSort().equals(category.getSort())){\r\n                throw new RuntimeException(\"顺序号不能与其他一致\");\r\n            }\r\n        }\r\n        Category category = Category.builder().id(dto.getId()).type(dto.getType())\r\n                                                .name(dto.getName()).sort(dto.getSort())\r\n                                                .status(1).createTime(LocalDateTime.now())\r\n                                                .updateTime(LocalDateTime.now()).createUser(1L).build();\r\n        categoryMapper.addCategory(category);\r\n    }\r\n\r\n    /*\r\n     * 类型查询分类\r\n     * */\r\n    public List<Category> categoryQuery(Integer type){\r\n\r\n        List<Category> list = categoryMapper.categoryQuery(type);\r\n        if(list == null){\r\n            throw new RuntimeException(\"暂无该类型\");\r\n        }\r\n        return list;\r\n    }\r\n\r\n    /*\r\n     * @param categoryType\r\n     * 修改分类\r\n     * */\r\n    @Override\r\n    public void updateCategory(CategoryDTO dto) {\r\n\r\n        categoryMapper.updateCategory(dto);\r\n    }\r\n\r\n    /**\r\n     * 启用、禁用分类\r\n     *\r\n     * @param status\r\n     * @return com.jxufe.result.Result\r\n     * @author 逍遥\r\n     * @create 2024/9/7\r\n     **/\r\n    public void changeStatue(String status, String id) {\r\n\r\n        categoryMapper.changeStatus(Integer.parseInt(status), id);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/service/impl/CategoryImpl.java b/jxufe-serve/src/main/java/com/jxufe/service/impl/CategoryImpl.java
+--- a/jxufe-serve/src/main/java/com/jxufe/service/impl/CategoryImpl.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/service/impl/CategoryImpl.java	(date 1726195905605)
+@@ -87,4 +87,16 @@
+ 
+         categoryMapper.changeStatus(Integer.parseInt(status), id);
+     }
++
++    /*
++     * 商家根据id删除分类
++     * @param id
++     * @return com.jxufe.result.Result
++     * @author 逍遥
++     * @create 2024/9/12 上午9:25
++     **/
++    public void deleteCategory(String id) {
++
++        categoryMapper.deleteCategory(id);
++    }
+ }
+Index: jxufe-serve/src/main/java/com/jxufe/service/AddressBookService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.service;\r\n\r\nimport com.jxufe.entity.AddressBook;\r\nimport org.springframework.stereotype.Service;\r\n\r\nimport java.util.List;\r\n\r\n@Service\r\npublic interface AddressBookService {\r\n\r\n    /*\r\n     * 用户添加地址\r\n     * */\r\n    void queryAddressBook(AddressBook addressBook);\r\n\r\n    /*\r\n     * 查询当前登录用户的所有地址信息\r\n     * */\r\n    List<AddressBook> queryAllAddressBook();\r\n\r\n    /*\r\n     * 查询默认地址\r\n     * */\r\n    AddressBook queryDefaultAddressBook();\r\n\r\n    /*\r\n     * 设置默认地址\r\n     * */\r\n    void setDefaultAddressBook(Integer id);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/service/AddressBookService.java b/jxufe-serve/src/main/java/com/jxufe/service/AddressBookService.java
+--- a/jxufe-serve/src/main/java/com/jxufe/service/AddressBookService.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/service/AddressBookService.java	(date 1726195905580)
+@@ -2,6 +2,7 @@
+ 
+ import com.jxufe.entity.AddressBook;
+ import org.springframework.stereotype.Service;
++import org.springframework.web.bind.annotation.PathVariable;
+ 
+ import java.util.List;
+ 
+@@ -27,4 +28,13 @@
+      * 设置默认地址
+      * */
+     void setDefaultAddressBook(Integer id);
++
++    //用户修改地址
++    void idChangeAddressBook(AddressBook addressBook);
++
++    //用户删除地址
++    void idDeleteAddressBook(String id);
++
++    //用户查询地址
++    AddressBook idQueryAddressBook(String id);
+ }
+Index: jxufe-serve/src/main/resources/application.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring:\r\n  datasource:\r\n    driver-class-name: com.mysql.cj.jdbc.Driver\r\n    url: jdbc:mysql://localhost:3306/sky_take_out\r\n    username: root\r\n    password: woxueba2003\r\n\r\n  redis:\r\n    host: localhost\r\n    port: 6379\r\n    password: woxueba2003\r\n    database: 0\r\n\r\n  profiles:\r\n    active:\r\n\r\nserver:\r\n  port: 8080\r\n\r\nmybatis-plus:\r\n  type-aliases-package: com.jxufe.entity\r\n  mapper-locations: classpath:mappers/*xml\r\n  configuration:\r\n      map-underscore-to-camel-case: true\r\n\r\njxufe:\r\n  jwt:\r\n    secret-key: jxufe\r\n    ttl: 72000000\r\n    token-name: token\r\n    user-token-name: authentication\r\n    user-ttl: 72000000\r\n    user-secret-key: jxufe\r\n  alioss:\r\n      endpoint: oss-cn-shenzhen.aliyuncs.com\r\n      access-key-id: LTAI5tPkBH6Ji1V1LYeMpFZj\r\n      access-key-secret: RyoJDyLfj6QarsMcKgc9ql5NTY2Od1\r\n      bucket-name: jufux\r\n  wechat:\r\n    appid: wxff1336491409eddf\r\n    secret: dddf752d669f1aa6691713de007d7ebb\r\n    mchid: 1561414331\r\n\r\n#打印sql日志\r\nlogging:\r\n  level:\r\n    com:\r\n      jxufe:\r\n        mappers: debug\r\n        controller: info\r\n        service: info\r\n    org.springframework.jdbc.support.JdbcTransactionManager: debug\r\n\r\n  wechat:\r\n    appid: wxff1336491409eddf\r\n    secret: dddf752d669f1aa6691713de007d7ebb\r\n    mchid : 1561414331\r\n    mchSerialNo: 4B3B3DC35414AD50B1B755BAF8DE9CC7CF407606\r\n    privateKeyFilePath: #D:\\pay\\apiclient_key.pem\r\n    apiV3Key: CZBK51236435wxpay435434323FFDuv3\r\n    weChatPayCertFilePath: #D:\\pay\\wechatpay_166D96F876F45C7D07CE98952A96EC980368ACFC.pem\r\n    notifyUrl: #https://58869fb.r2.cpolar.top/notify/paySuccess\r\n    refundNotifyUrl: #https://58869fb.r2.cpolar.top/notify/refundSuccess\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/resources/application.yml b/jxufe-serve/src/main/resources/application.yml
+--- a/jxufe-serve/src/main/resources/application.yml	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/resources/application.yml	(date 1726195905544)
+@@ -41,6 +41,12 @@
+     secret: dddf752d669f1aa6691713de007d7ebb
+     mchid: 1561414331
+ 
++  shop:
++    address: 南昌师范学院昌北校区
++    ak: f8RwQt38fZhpiiOmid0iUoSMpYO3TNxA
++
++
++
+ #打印sql日志
+ logging:
+   level:
+Index: jxufe-serve/src/main/java/com/jxufe/service/impl/AddressBookImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.service.impl;\r\n\r\nimport com.jxufe.context.BaseContext;\r\nimport com.jxufe.entity.AddressBook;\r\nimport com.jxufe.mappers.AddressBookMapper;\r\nimport com.jxufe.service.AddressBookService;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Service;\r\n\r\nimport java.util.List;\r\n\r\n@Service\r\npublic class AddressBookImpl implements AddressBookService {\r\n\r\n    @Autowired\r\n    private AddressBookMapper addressBookMapper;\r\n\r\n    /*\r\n     * 用户添加地址\r\n     * */\r\n    public void queryAddressBook(AddressBook addressBook){\r\n\r\n        addressBook.setUserId(BaseContext.getCurrentId());\r\n        addressBook.setIsDefault(0);\r\n        addressBookMapper.insert(addressBook);\r\n    }\r\n\r\n    /*\r\n     * 查询当前登录用户的所有地址信息\r\n     * */\r\n    public List<AddressBook> queryAllAddressBook() {\r\n        Long userId = BaseContext.getCurrentId();\r\n        return addressBookMapper.query(userId);\r\n    }\r\n\r\n    /* 1就是默认地址\r\n     * 查询默认地址\r\n     * */\r\n    public AddressBook queryDefaultAddressBook() {\r\n        return addressBookMapper.queryDefaultAddress();\r\n    }\r\n\r\n    /*\r\n     * 设置默认地址\r\n     * */\r\n    public void setDefaultAddressBook(Integer id) {\r\n        //先把所有的默认地址设置为非默认0，再设置那个专属的\r\n        addressBookMapper.setDefaultAddressBook();\r\n        addressBookMapper.DefaultAddressBook(id);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/service/impl/AddressBookImpl.java b/jxufe-serve/src/main/java/com/jxufe/service/impl/AddressBookImpl.java
+--- a/jxufe-serve/src/main/java/com/jxufe/service/impl/AddressBookImpl.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/service/impl/AddressBookImpl.java	(date 1726195905603)
+@@ -6,6 +6,7 @@
+ import com.jxufe.service.AddressBookService;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.stereotype.Service;
++import org.springframework.transaction.annotation.Transactional;
+ 
+ import java.util.List;
+ 
+@@ -37,6 +38,7 @@
+      * 查询默认地址
+      * */
+     public AddressBook queryDefaultAddressBook() {
++
+         return addressBookMapper.queryDefaultAddress();
+     }
+ 
+@@ -48,4 +50,43 @@
+         addressBookMapper.setDefaultAddressBook();
+         addressBookMapper.DefaultAddressBook(id);
+     }
++
++    /*
++     * 用户修改地址
++     * @param addressBook
++     * @return com.jxufe.result.Result
++     * @author 逍遥
++     * @create 2024/9/11 下午10:50
++     **/
++    @Transactional
++    public void idChangeAddressBook(AddressBook addressBook) {
++        //先删除原来的，再插入新的
++        addressBookMapper.idDeleteAddressBook(addressBook.getId());
++        addressBook.setUserId(BaseContext.getCurrentId());
++        addressBookMapper.insert(addressBook);
++    }
++
++    /*
++     * 删除地址
++     * @param id
++     * @return com.jxufe.result.Result
++     * @author 逍遥
++     * @create 2024/9/11 下午11:11
++     **/
++    public void idDeleteAddressBook(String id) {
++
++        addressBookMapper.idDeleteAddressBook(Long.valueOf(id));
++    }
++
++    /*
++     * 查询地址
++     * @param id
++     * @return com.jxufe.result.Result
++     * @author 逍遥
++     * @create 2024/9/11 下午11:20
++     **/
++    public AddressBook idQueryAddressBook(String id) {
++
++        return addressBookMapper.queryAddress(Integer.valueOf(id));
++    }
+ }
+Index: jxufe-serve/src/main/java/com/jxufe/mappers/AddressBookMapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.mappers;\r\n\r\nimport com.jxufe.entity.AddressBook;\r\nimport org.apache.ibatis.annotations.Mapper;\r\nimport org.apache.ibatis.annotations.Select;\r\nimport org.apache.ibatis.annotations.Update;\r\n\r\nimport java.util.List;\r\n\r\n@Mapper\r\npublic interface AddressBookMapper {\r\n\r\n\r\n    void insert(AddressBook addressBook);\r\n\r\n    @Select(\"select * from address_book where user_id = #{userId}\")\r\n    List<AddressBook> query(Long userId);\r\n\r\n    @Select(\"select * from address_book where id = #{id}\")\r\n    AddressBook queryAddress(Integer id);\r\n    /*\r\n     * 查询默认地址\r\n     * */\r\n    @Select(\"select * from address_book where is_default = 1\")\r\n    AddressBook queryDefaultAddress();\r\n\r\n    @Update(\"update address_book set is_default = 0\")\r\n    void setDefaultAddressBook();\r\n\r\n    @Update(\"update address_book set is_default = 1 where id = #{id}\")\r\n    void DefaultAddressBook(Integer id);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/mappers/AddressBookMapper.java b/jxufe-serve/src/main/java/com/jxufe/mappers/AddressBookMapper.java
+--- a/jxufe-serve/src/main/java/com/jxufe/mappers/AddressBookMapper.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/mappers/AddressBookMapper.java	(date 1726195905626)
+@@ -1,6 +1,7 @@
+ package com.jxufe.mappers;
+ 
+ import com.jxufe.entity.AddressBook;
++import org.apache.ibatis.annotations.Delete;
+ import org.apache.ibatis.annotations.Mapper;
+ import org.apache.ibatis.annotations.Select;
+ import org.apache.ibatis.annotations.Update;
+@@ -10,7 +11,7 @@
+ @Mapper
+ public interface AddressBookMapper {
+ 
+-
++    //插入地址
+     void insert(AddressBook addressBook);
+ 
+     @Select("select * from address_book where user_id = #{userId}")
+@@ -27,6 +28,11 @@
+     @Update("update address_book set is_default = 0")
+     void setDefaultAddressBook();
+ 
++    //设置默认地址
+     @Update("update address_book set is_default = 1 where id = #{id}")
+     void DefaultAddressBook(Integer id);
++
++    //用户删除地址
++    @Delete("delete from address_book where id = #{id}")
++    void idDeleteAddressBook(Long id);
+ }
+Index: jxufe-serve/src/main/java/com/jxufe/service/impl/OrderImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.service.impl;\r\n\r\nimport com.alibaba.fastjson.JSON;\r\nimport com.jxufe.context.BaseContext;\r\nimport com.jxufe.dto.OrdersPaymentDTO;\r\nimport com.jxufe.dto.OrdersSubmitDTO;\r\nimport com.jxufe.entity.AddressBook;\r\nimport com.jxufe.entity.OrderDetail;\r\nimport com.jxufe.entity.Orders;\r\nimport com.jxufe.entity.ShoppingCart;\r\nimport com.jxufe.mappers.AddressBookMapper;\r\nimport com.jxufe.mappers.OrderDetailMapper;\r\nimport com.jxufe.mappers.OrderMapper;\r\nimport com.jxufe.mappers.ShoppCartMapper;\r\nimport com.jxufe.result.PageResult;\r\nimport com.jxufe.service.OrderService;\r\nimport com.jxufe.vo.OrderPaymentVO;\r\nimport com.jxufe.vo.OrderSubmitVO;\r\nimport com.jxufe.vo.OrderVO;\r\nimport com.jxufe.websocket.WebSocketServer;\r\nimport org.springframework.beans.BeanUtils;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Service;\r\nimport org.springframework.transaction.annotation.Transactional;\r\n\r\nimport java.time.LocalDateTime;\r\nimport java.util.*;\r\n\r\n@Service\r\npublic class OrderImpl implements OrderService {\r\n\r\n    private static final Integer PAY_SUCCESS = 1;\r\n    private static final Integer STATUS = 2;\r\n\r\n    @Autowired\r\n    private OrderMapper orderMapper;\r\n    @Autowired\r\n    private AddressBookMapper addressBookMapper;\r\n    @Autowired\r\n    private OrderDetailMapper orderDetailMapper;\r\n    @Autowired\r\n    private ShoppCartMapper  shoppingCartMapper;\r\n    @Autowired\r\n    private WebSocketServer webSocketServer;\r\n\r\n    /*\r\n     * 用户下单\r\n     * */\r\n    @Transactional\r\n    public OrderSubmitVO SubmitOrder(OrdersSubmitDTO ordersSubmitDTO) {\r\n        Orders order = new Orders();\r\n        //获得dto里的数据\r\n        BeanUtils.copyProperties(ordersSubmitDTO, order);\r\n        //设置实体类order中的数据\r\n        order.setNumber(String.valueOf(System.currentTimeMillis()));\r\n        order.setStatus(1);\r\n        order.setOrderTime(LocalDateTime.now());\r\n        order.setPayMethod(1);\r\n        order.setPayStatus(0);\r\n        //根据id获得addressBook的数据\r\n        AddressBook addressBook = addressBookMapper.queryAddress(ordersSubmitDTO.getAddressBookId().intValue());\r\n        if(addressBook == null){\r\n            throw new RuntimeException(\"你的地址簿不存在\");\r\n        }\r\n        BeanUtils.copyProperties(addressBook, order);\r\n        order.setAddressBookId(addressBook.getId());\r\n        order.setAddress(addressBook.getDetail());\r\n        //把数据插进订单细节里,一对多的关系，一个订单有多个细节\r\n        List<OrderDetail> orderDetailList = new ArrayList<>();\r\n        Long userId = BaseContext.getCurrentId();\r\n        List<ShoppingCart> shoppingCartList = shoppingCartMapper.idQueryShopCart(userId.intValue());\r\n        //插入order实体类\r\n        orderMapper.insert(order);\r\n        //查询实体类获得该主键\r\n        Orders realOrder = orderMapper.numberQuery(order.getNumber());\r\n        // 向订单明细表插入n条数据\r\n        for (ShoppingCart cart : shoppingCartList) {\r\n            OrderDetail orderDetail = new OrderDetail();//订单明细\r\n            BeanUtils.copyProperties(cart, orderDetail);\r\n            orderDetail.setOrderId(realOrder.getId());//设置当前订单明细关联的订单id\r\n            orderDetailList.add(orderDetail);\r\n        }\r\n        // 插入订单详情\r\n        orderDetailMapper.insertBatch(orderDetailList);\r\n\r\n        // 清空当前用户的购物车数据\r\n        shoppingCartMapper.deleteAllShopCart(userId.intValue());\r\n\r\n\r\n\r\n        OrderSubmitVO orderSubmitVO = OrderSubmitVO.builder().orderNumber(order.getNumber())\r\n                        .orderAmount(order.getAmount()).orderTime(LocalDateTime.now()).build();\r\n        return orderSubmitVO;\r\n    }\r\n\r\n    /*\r\n     * 用户取消订单\r\n     * */\r\n    @Transactional\r\n    public void cancelOrder(String id) {\r\n\r\n        orderMapper.update(Integer.valueOf(id), LocalDateTime.now());\r\n    }\r\n\r\n    /*\r\n     * 查询订单详情\r\n     * */\r\n    public OrderVO queryOrderDetail(String id){\r\n        //把order和orderDetail的数值全都弄过去\r\n        Orders orders = orderMapper.query(Integer.valueOf(id));\r\n        List<OrderDetail> orderDetailList = orderDetailMapper.queryAll(orders.getId().intValue());\r\n        OrderVO orderVO = new OrderVO();\r\n        orderVO.setOrderDetailList(orderDetailList);\r\n        BeanUtils.copyProperties(orders, orderVO);\r\n        return orderVO;\r\n    }\r\n\r\n    /*\r\n     * 用户查询历史订单记录\r\n     * */\r\n    public PageResult<OrderVO> historyOrderQuery(String page, String pageSize, String status) {\r\n\r\n        Integer userId = BaseContext.getCurrentId().intValue();\r\n        Integer realPage = (Integer.parseInt(page) - 1) * Integer.parseInt(pageSize);\r\n        List<Orders> orders = orderMapper.queryAll(userId, realPage, Integer.parseInt(pageSize));\r\n        List<OrderVO> orderVOList = new ArrayList<>();\r\n        for (Orders order : orders) {\r\n            List<OrderDetail> orderDetailList = orderDetailMapper.queryAll(order.getId().intValue());\r\n            OrderVO orderVO = new OrderVO();\r\n            orderVO.setOrderDetailList(orderDetailList);\r\n            BeanUtils.copyProperties(order, orderVO);\r\n            orderVOList.add(orderVO);\r\n        }\r\n        PageResult<OrderVO> pageResult =new PageResult<>();\r\n        pageResult.setTotal(orderMapper.queryNumber(userId));\r\n        pageResult.setRecords(orderVOList);\r\n        return pageResult;\r\n    }\r\n\r\n    /**\r\n     * 用户支付\r\n     * @param dto\r\n     * @return com.jxufe.result.Result\r\n     * @author 逍遥\r\n     * @create 2024/9/6\r\n     **/\r\n    @Transactional\r\n    public OrderPaymentVO payment(OrdersPaymentDTO dto) {\r\n\r\n        String number = dto.getOrderNumber();\r\n        if(orderMapper.numberQuery(number) == null){\r\n            throw new RuntimeException(\"无法查询到该订单\");\r\n        }\r\n        if (!orderMapper.numberQuery(number).getPayStatus().equals(0)){\r\n            throw new RuntimeException(\"该订单已支付\");\r\n        }\r\n        String time =  String.valueOf(new Date().getTime());\r\n        orderMapper.payment(number, dto.getPayMethod(), PAY_SUCCESS, STATUS);\r\n        orderMapper.changeTime(LocalDateTime.now(), number);\r\n        //调用websocket提醒接单\r\n        Map map = new HashMap<>();\r\n        map.put(\"type\", 1);\r\n        map.put(\"orderId\", (orderMapper.numberQuery(dto.getOrderNumber())).getId());\r\n        map.put(\"content\",\"订单号：\" + dto.getOrderNumber());\r\n        String json = JSON.toJSONString(map);\r\n        webSocketServer.sendToAllClient(json);\r\n        return OrderPaymentVO.builder().nonceStr(\"1\").packageStr(\"2\")\r\n                .paySign(\"3\").signType(\"4\").timeStamp(time)\r\n                .build();\r\n    }\r\n\r\n   /*\r\n    * 催单\r\n    * @param id\r\n    * @return void\r\n    * @author 逍遥\r\n    * @create 2024/9/7\r\n    **/\r\n    public void reminder(String id) {\r\n\r\n        Map map = new HashMap<>();\r\n        map.put(\"type\", 2);\r\n        map.put(\"orderId\", id);\r\n        map.put(\"content\",\"订单号：\" + (orderMapper.query(Integer.valueOf(id))).getNumber());\r\n        String json = JSON.toJSONString(map);\r\n        webSocketServer.sendToAllClient(json);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/service/impl/OrderImpl.java b/jxufe-serve/src/main/java/com/jxufe/service/impl/OrderImpl.java
+--- a/jxufe-serve/src/main/java/com/jxufe/service/impl/OrderImpl.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/service/impl/OrderImpl.java	(date 1726195905607)
+@@ -1,6 +1,8 @@
+ package com.jxufe.service.impl;
+ 
+ import com.alibaba.fastjson.JSON;
++import com.alibaba.fastjson.JSONArray;
++import com.alibaba.fastjson.JSONObject;
+ import com.jxufe.context.BaseContext;
+ import com.jxufe.dto.OrdersPaymentDTO;
+ import com.jxufe.dto.OrdersSubmitDTO;
+@@ -12,8 +14,10 @@
+ import com.jxufe.mappers.OrderDetailMapper;
+ import com.jxufe.mappers.OrderMapper;
+ import com.jxufe.mappers.ShoppCartMapper;
++import com.jxufe.properties.BaiduProperty;
+ import com.jxufe.result.PageResult;
+ import com.jxufe.service.OrderService;
++import com.jxufe.utils.HttpClientUtil;
+ import com.jxufe.vo.OrderPaymentVO;
+ import com.jxufe.vo.OrderSubmitVO;
+ import com.jxufe.vo.OrderVO;
+@@ -42,6 +46,64 @@
+     private ShoppCartMapper  shoppingCartMapper;
+     @Autowired
+     private WebSocketServer webSocketServer;
++    @Autowired
++    private BaiduProperty baiduProperty;
++
++    //求经纬度
++    public static String URL = "https://api.map.baidu.com/geocoding/v3?";
++
++    /*
++     * 求是否超过距离
++     * @param address 客人的地址
++     * @return void
++     * @author 逍遥
++     * @create 2024/9/12 下午10:35
++     **/
++    public void checkOutOfRange(String address){
++
++        Map params = new LinkedHashMap<String, String>();
++        params.put("address", baiduProperty.getAddress());
++        params.put("output", "json");
++        params.put("ak", baiduProperty.getAk());
++        String shopJson = HttpClientUtil.doGet(URL, params);
++        if( ! JSONObject.parseObject(shopJson).getString("status").equals("0") ){
++            throw new RuntimeException("地址解析错误");
++        }
++        JSONObject jsonObject = JSON.parseObject(shopJson).getJSONObject("result").getJSONObject("location");
++        String lng = jsonObject.getString("lng").substring(0, 8);
++        String lat = jsonObject.getString("lat").substring(0, 8);
++        //bd09ll坐标
++        String origin = lat + "," + lng;
++        params.remove("address");
++        params.put("address", address);
++        String customer = HttpClientUtil.doGet(URL, params);
++        if( ! JSONObject.parseObject(customer).getString("status").equals("0") ){
++            throw new RuntimeException("地址解析错误");
++        }
++        jsonObject = JSON.parseObject(customer).getJSONObject("result").getJSONObject("location");
++        //经度
++        lng = jsonObject.getString("lng").substring(0, 8);
++        //纬度
++        lat = jsonObject.getString("lat").substring(0, 8);
++        String destination =  lat + "," + lng;
++        String url = "https://api.map.baidu.com/directionlite/v1/riding?";
++        params.clear();;
++        params.put("ak", baiduProperty.getAk());
++        params.put("origin", origin);
++        params.put("destination", destination);
++        params.put("coord_type"," bd09ll");
++        String json = HttpClientUtil.doGet(url, params);
++        if( ! JSONObject.parseObject(json).getString("status").equals("0") ){
++            throw new RuntimeException("地址解析错误");
++        }
++        JSONObject result = JSONObject.parseObject(json).getJSONObject("result");
++        JSONArray router = result.getJSONArray("routes");
++
++        Integer distance = router.getJSONObject(0).getInteger("distance") ;
++        if(distance >= 5000){
++            throw  new RuntimeException("超过配送范围");
++        }
++    }
+ 
+     /*
+      * 用户下单
+@@ -62,6 +124,10 @@
+         if(addressBook == null){
+             throw new RuntimeException("你的地址簿不存在");
+         }
++        //查看是否超出配送范围
++        String address = addressBook.getDetail();
++        checkOutOfRange(address);
++
+         BeanUtils.copyProperties(addressBook, order);
+         order.setAddressBookId(addressBook.getId());
+         order.setAddress(addressBook.getDetail());
+@@ -185,4 +251,25 @@
+         String json = JSON.toJSONString(map);
+         webSocketServer.sendToAllClient(json);
+     }
++
++    /*
++     * 用户再来一单
++     * @param id
++     * @return com.jxufe.result.Result
++     * @author 逍遥
++     * @create 2024/9/11 下午11:33
++     **/
++    @Transactional
++    public void repetition(String id) {
++
++        List<OrderDetail> list = orderDetailMapper.queryAll(Integer.valueOf(id));
++        ShoppingCart shoppingCart = new ShoppingCart();
++        shoppingCart.setUserId(BaseContext.getCurrentId());
++        shoppingCart.setCreateTime(LocalDateTime.now());
++        for(OrderDetail detail : list){
++
++            BeanUtils.copyProperties(detail, shoppingCart);
++            shoppingCartMapper.addShoppingCart(shoppingCart);
++        }
++    }
+ }
+Index: jxufe-serve/src/main/java/com/jxufe/service/impl/AdminOrderServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.service.impl;\r\n\r\nimport com.jxufe.dto.NOOrdersDTO;\r\nimport com.jxufe.dto.OrdersPageQueryDTO;\r\nimport com.jxufe.entity.Orders;\r\nimport com.jxufe.mappers.AdminOrderMapper;\r\nimport com.jxufe.result.PageResult;\r\nimport com.jxufe.service.AdminOrderService;\r\nimport com.jxufe.vo.OrderStatisticsVO;\r\nimport com.jxufe.vo.OrderVO;\r\nimport org.springframework.beans.BeanUtils;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Service;\r\n\r\nimport java.time.LocalDateTime;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n\r\n@Service\r\npublic class AdminOrderServiceImpl implements AdminOrderService{\r\n\r\n    @Autowired\r\n    private AdminOrderMapper mapper;\r\n\r\n    /*\r\n     * 订单搜索\r\n     * */\r\n    @Override\r\n    public PageResult queryOrder(OrdersPageQueryDTO dto) {\r\n\r\n        List<OrderVO<Orders>> vo = new ArrayList<>();\r\n        //首先改变dto中的开始页数\r\n        dto.setPage((dto.getPage() - 1) * dto.getPageSize());\r\n        //order实体的集合\r\n        List<Orders> list = mapper.searchOrders(dto);\r\n        //获取总数据数\r\n        if(list == null && list.isEmpty()){\r\n            throw new RuntimeException(\"查询出错\");\r\n        }\r\n        long total = mapper.total(dto);\r\n        //需要order实体，然后再加上菜品组成orderVo\r\n        //赋值订单信息给vo\r\n        for(Orders order : list){\r\n            OrderVO<Orders> orderVO = new OrderVO<>();\r\n            BeanUtils.copyProperties(order, orderVO);\r\n            //需要string类型\r\n            String dishes = (mapper.dishes(order.getId())).toString();\r\n            if(dishes == null){\r\n                dishes = \"暂时查无此订单菜品\";\r\n            }\r\n            orderVO.setOrderDishes(dishes);\r\n            vo.add(orderVO);\r\n        }\r\n       return new PageResult<>(total, vo);\r\n    }\r\n\r\n    /*2:待接单，4：派送中， 3：待派送\r\n     * 各个状态的订单数量统计\r\n     * */\r\n    @Override\r\n    public OrderStatisticsVO statistic() {\r\n\r\n        OrderStatisticsVO vo = new OrderStatisticsVO();\r\n        vo.setConfirmed(mapper.statistic(3));\r\n        vo.setToBeConfirmed(mapper.statistic(2));\r\n        vo.setDeliveryInProgress(mapper.statistic(4));\r\n        return vo;\r\n    }\r\n\r\n    /*\r\n     * 取消6， 退款7\r\n     * */\r\n\r\n    public void orderCancel(NOOrdersDTO dto) {\r\n        mapper.order(dto.getId(), dto.getStatus(), dto.getRejectionReason(), dto.getCancelReason(), LocalDateTime.now());\r\n    }\r\n\r\n    /*\r\n    * 接单3,  完成5，\r\n     * */\r\n\r\n    @Override\r\n    public void receiveOrder(Integer id) {\r\n        mapper.order(id, 3, null, null, null);\r\n    }\r\n\r\n    /*\r\n    * 完成订单\r\n    * */\r\n    public void finishOrder(String id) {\r\n\r\n        mapper.finishOrder(Integer.valueOf(id), LocalDateTime.now());\r\n    }\r\n\r\n    /*\r\n    * 派送4\r\n    * */\r\n    @Override\r\n    public void sendOrder(Integer id) {\r\n\r\n        mapper.order(id, 4, null, null, null);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/service/impl/AdminOrderServiceImpl.java b/jxufe-serve/src/main/java/com/jxufe/service/impl/AdminOrderServiceImpl.java
+--- a/jxufe-serve/src/main/java/com/jxufe/service/impl/AdminOrderServiceImpl.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/service/impl/AdminOrderServiceImpl.java	(date 1726195905592)
+@@ -1,5 +1,8 @@
+ package com.jxufe.service.impl;
+ 
++import com.alibaba.fastjson.JSON;
++import com.alibaba.fastjson.JSONObject;
++import com.fasterxml.jackson.databind.ObjectMapper;
+ import com.jxufe.dto.NOOrdersDTO;
+ import com.jxufe.dto.OrdersPageQueryDTO;
+ import com.jxufe.entity.Orders;
+@@ -22,6 +25,8 @@
+ 
+     @Autowired
+     private AdminOrderMapper mapper;
++    @Autowired
++    private ObjectMapper jacksonObjectMapper;
+ 
+     /*
+      * 订单搜索
+@@ -98,7 +103,6 @@
+     * */
+     @Override
+     public void sendOrder(Integer id) {
+-
+         mapper.order(id, 4, null, null, null);
+     }
+ }
+Index: jxufe-serve/src/main/java/com/jxufe/service/OrderService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.service;\r\n\r\nimport com.jxufe.dto.OrdersPaymentDTO;\r\nimport com.jxufe.dto.OrdersSubmitDTO;\r\nimport com.jxufe.result.PageResult;\r\nimport com.jxufe.vo.OrderPaymentVO;\r\nimport com.jxufe.vo.OrderSubmitVO;\r\nimport com.jxufe.vo.OrderVO;\r\n\r\npublic interface OrderService {\r\n\r\n    /*\r\n     * 用户下单\r\n     * */\r\n    OrderSubmitVO SubmitOrder(OrdersSubmitDTO ordersSubmitDTO);\r\n\r\n    /*\r\n     * 用户取消订单\r\n     * */\r\n    void  cancelOrder(String id);\r\n\r\n    /*\r\n     * 用户查询订单详情\r\n     * */\r\n    OrderVO queryOrderDetail(String id);\r\n\r\n    /*\r\n    * 用户查询历史订单记录\r\n    * */\r\n    PageResult historyOrderQuery(String page, String pageSize, String status);\r\n\r\n    /**\r\n     * 用户支付\r\n     * @param dto\r\n     * @return com.jxufe.result.Result\r\n     * @author 逍遥\r\n     * @create 2024/9/6\r\n     **/\r\n    OrderPaymentVO payment(OrdersPaymentDTO dto);\r\n\r\n    /*\r\n     * 催单\r\n     * @param id\r\n     * @return void\r\n     * @author 逍遥\r\n     * @create 2024/9/7\r\n     **/\r\n    void reminder(String id);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/service/OrderService.java b/jxufe-serve/src/main/java/com/jxufe/service/OrderService.java
+--- a/jxufe-serve/src/main/java/com/jxufe/service/OrderService.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/service/OrderService.java	(date 1726195905583)
+@@ -46,4 +46,7 @@
+      * @create 2024/9/7
+      **/
+     void reminder(String id);
++
++    //用户再来一单
++    void repetition(String id);
+ }
+Index: jxufe-serve/target/classes/application.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring:\r\n  datasource:\r\n    driver-class-name: com.mysql.cj.jdbc.Driver\r\n    url: jdbc:mysql://localhost:3306/sky_take_out\r\n    username: root\r\n    password: woxueba2003\r\n\r\n  redis:\r\n    host: localhost\r\n    port: 6379\r\n    password: woxueba2003\r\n    database: 0\r\n\r\n  profiles:\r\n    active:\r\n\r\nserver:\r\n  port: 8080\r\n\r\nmybatis-plus:\r\n  type-aliases-package: com.jxufe.entity\r\n  mapper-locations: classpath:mappers/*xml\r\n  configuration:\r\n      map-underscore-to-camel-case: true\r\n\r\njxufe:\r\n  jwt:\r\n    secret-key: jxufe\r\n    ttl: 72000000\r\n    token-name: token\r\n    user-token-name: authentication\r\n    user-ttl: 72000000\r\n    user-secret-key: jxufe\r\n  alioss:\r\n      endpoint: oss-cn-shenzhen.aliyuncs.com\r\n      access-key-id: LTAI5tPkBH6Ji1V1LYeMpFZj\r\n      access-key-secret: RyoJDyLfj6QarsMcKgc9ql5NTY2Od1\r\n      bucket-name: jufux\r\n  wechat:\r\n    appid: wxff1336491409eddf\r\n    secret: dddf752d669f1aa6691713de007d7ebb\r\n    mchid: 1561414331\r\n\r\n#打印sql日志\r\nlogging:\r\n  level:\r\n    com:\r\n      jxufe:\r\n        mappers: debug\r\n        controller: info\r\n        service: info\r\n    org.springframework.jdbc.support.JdbcTransactionManager: debug\r\n\r\n  wechat:\r\n    appid: wxff1336491409eddf\r\n    secret: dddf752d669f1aa6691713de007d7ebb\r\n    mchid : 1561414331\r\n    mchSerialNo: 4B3B3DC35414AD50B1B755BAF8DE9CC7CF407606\r\n    privateKeyFilePath: #D:\\pay\\apiclient_key.pem\r\n    apiV3Key: CZBK51236435wxpay435434323FFDuv3\r\n    weChatPayCertFilePath: #D:\\pay\\wechatpay_166D96F876F45C7D07CE98952A96EC980368ACFC.pem\r\n    notifyUrl: #https://58869fb.r2.cpolar.top/notify/paySuccess\r\n    refundNotifyUrl: #https://58869fb.r2.cpolar.top/notify/refundSuccess\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/target/classes/application.yml b/jxufe-serve/target/classes/application.yml
+--- a/jxufe-serve/target/classes/application.yml	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/target/classes/application.yml	(date 1726195988717)
+@@ -41,6 +41,12 @@
+     secret: dddf752d669f1aa6691713de007d7ebb
+     mchid: 1561414331
+ 
++  shop:
++    address: 南昌师范学院昌北校区
++    ak: f8RwQt38fZhpiiOmid0iUoSMpYO3TNxA
++
++
++
+ #打印sql日志
+ logging:
+   level:
+Index: jxufe-serve/src/main/java/com/jxufe/service/impl/ShoppingCartImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.service.impl;\r\n\r\nimport com.jxufe.context.BaseContext;\r\nimport com.jxufe.dto.ShoppingCartDTO;\r\nimport com.jxufe.entity.ShoppingCart;\r\nimport com.jxufe.mappers.DishMapper;\r\nimport com.jxufe.mappers.ShoppCartMapper;\r\nimport com.jxufe.service.ShoppingCartService;\r\nimport com.jxufe.vo.DishVO;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Service;\r\n\r\nimport java.time.LocalDateTime;\r\nimport java.util.List;\r\n\r\n@Service\r\npublic class ShoppingCartImpl implements ShoppingCartService {\r\n\r\n    @Autowired\r\n    private ShoppCartMapper shoppCartMapper;\r\n\r\n    @Autowired\r\n    private DishMapper dishMapper;\r\n    /*\r\n     * 查询购物车\r\n     * */\r\n    public List<ShoppingCart> queryShoppingCart() {\r\n\r\n        Integer id = BaseContext.getCurrentId().intValue();\r\n        List<ShoppingCart> list = shoppCartMapper.idQueryShopCart(id);\r\n        return list;\r\n    }\r\n\r\n    /*\r\n     * 添加购物车\r\n     * */\r\n    public void addShoppingCart(ShoppingCartDTO shoppingCartDTO) {\r\n\r\n        DishVO dish = dishMapper.idQueryDish(shoppingCartDTO.getDishId().intValue());\r\n        String dishName = dish.getName();\r\n        String image = dish.getImage();\r\n        Long dishId = shoppingCartDTO.getDishId();\r\n        Long userId = BaseContext.getCurrentId();\r\n        Long setMealId = shoppingCartDTO.getSetMealId();\r\n        int number = 1;\r\n        ShoppingCart shoppingCart = ShoppingCart.builder().name(dishName).image(image)\r\n                .userId(userId).dishId(dishId).setmealId(setMealId).dishFlavor(shoppingCartDTO.getDishFlavor())\r\n                .amount(dish.getPrice()).createTime(LocalDateTime.now()).number(number)\r\n                .build();\r\n        if( shoppCartMapper.nameQueryShopCart(dishName) != null){\r\n            Integer nowNumber = shoppCartMapper.nameQueryShopCart(dishName).getNumber();\r\n            number = nowNumber + 1;\r\n            shoppCartMapper.changeNumber(number, dishName);\r\n        }\r\n        else{\r\n            shoppCartMapper.addShoppingCart(shoppingCart);\r\n        }\r\n    }\r\n\r\n    /*\r\n     * 删除购物车单个商品\r\n     * */\r\n    public void deleteShoppingCart(ShoppingCartDTO shoppingCartDto) {\r\n        DishVO dish = dishMapper.idQueryDish(shoppingCartDto.getDishId().intValue());\r\n        String dishName = dish.getName();\r\n        ShoppingCart shoppingCart = shoppCartMapper.nameQueryShopCart(dishName);\r\n        Integer number = shoppingCart.getNumber();\r\n        if(number == 1){\r\n            shoppCartMapper.deleteShopCart(dishName);\r\n            return;\r\n        }\r\n        number = number - 1;\r\n        shoppCartMapper.changeNumber(number, dishName);\r\n    }\r\n\r\n    /*\r\n     * 删除购物车全部\r\n     * */\r\n    public void deleteAllShoppingCart() {\r\n        Long userId = BaseContext.getCurrentId();\r\n        shoppCartMapper.deleteAllShopCart(userId.intValue());\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/service/impl/ShoppingCartImpl.java b/jxufe-serve/src/main/java/com/jxufe/service/impl/ShoppingCartImpl.java
+--- a/jxufe-serve/src/main/java/com/jxufe/service/impl/ShoppingCartImpl.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/service/impl/ShoppingCartImpl.java	(date 1726195905599)
+@@ -4,9 +4,11 @@
+ import com.jxufe.dto.ShoppingCartDTO;
+ import com.jxufe.entity.ShoppingCart;
+ import com.jxufe.mappers.DishMapper;
++import com.jxufe.mappers.SetmealMapper;
+ import com.jxufe.mappers.ShoppCartMapper;
+ import com.jxufe.service.ShoppingCartService;
+ import com.jxufe.vo.DishVO;
++import com.jxufe.vo.SetmealVO;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.stereotype.Service;
+ 
+@@ -21,42 +23,75 @@
+ 
+     @Autowired
+     private DishMapper dishMapper;
++
++    @Autowired
++    private SetmealMapper setmealMapper;
+     /*
+      * 查询购物车
+      * */
+     public List<ShoppingCart> queryShoppingCart() {
+ 
+         Integer id = BaseContext.getCurrentId().intValue();
+-        List<ShoppingCart> list = shoppCartMapper.idQueryShopCart(id);
+-        return list;
++        return shoppCartMapper.idQueryShopCart(id);
+     }
+ 
+-    /*
+-     * 添加购物车
+-     * */
++   /*
++    * 添加购物车
++    * @param shoppingCartDTO
++    * @return void
++    * @author 逍遥
++    * @create 2024/9/12 上午9:38
++    **/
+     public void addShoppingCart(ShoppingCartDTO shoppingCartDTO) {
+ 
+-        DishVO dish = dishMapper.idQueryDish(shoppingCartDTO.getDishId().intValue());
+-        String dishName = dish.getName();
+-        String image = dish.getImage();
+-        Long dishId = shoppingCartDTO.getDishId();
+-        Long userId = BaseContext.getCurrentId();
+-        Long setMealId = shoppingCartDTO.getSetMealId();
+-        int number = 1;
+-        ShoppingCart shoppingCart = ShoppingCart.builder().name(dishName).image(image)
+-                .userId(userId).dishId(dishId).setmealId(setMealId).dishFlavor(shoppingCartDTO.getDishFlavor())
+-                .amount(dish.getPrice()).createTime(LocalDateTime.now()).number(number)
+-                .build();
+-        if( shoppCartMapper.nameQueryShopCart(dishName) != null){
+-            Integer nowNumber = shoppCartMapper.nameQueryShopCart(dishName).getNumber();
+-            number = nowNumber + 1;
+-            shoppCartMapper.changeNumber(number, dishName);
+-        }
+-        else{
+-            shoppCartMapper.addShoppingCart(shoppingCart);
+-        }
+-    }
++        if( shoppingCartDTO.getDishId() != null ){
++
++            DishVO food = dishMapper.idQueryDish(shoppingCartDTO.getDishId().intValue());
++            String dishName = food.getName();
++            String image = food.getImage();
++            Long dishId = shoppingCartDTO.getDishId();
++            Long userId = BaseContext.getCurrentId();
++            Long setMealId = shoppingCartDTO.getSetmealId();
++            int number = 1;
++            ShoppingCart shoppingCart = ShoppingCart.builder().name(dishName).image(image)
++                    .userId(userId).dishId(dishId).setmealId(setMealId).dishFlavor(shoppingCartDTO.getDishFlavor())
++                    .amount(food.getPrice()).createTime(LocalDateTime.now()).number(number)
++                    .build();
++            if( shoppCartMapper.nameQueryShopCart(dishName) != null){
++                Integer nowNumber = shoppCartMapper.nameQueryShopCart(dishName).getNumber();
++                number = nowNumber + 1;
++                shoppCartMapper.changeNumber(number, dishName);
++            }
++            else{
++                shoppCartMapper.addShoppingCart(shoppingCart);
++            }
++        }
++        else{
++
++            SetmealVO food = setmealMapper.getByIdWithDish(shoppingCartDTO.getSetmealId());
++            String dishName = food.getName();
++            String image = food.getImage();
++            Long dishId = shoppingCartDTO.getDishId();
++            Long userId = BaseContext.getCurrentId();
++            Long setMealId = shoppingCartDTO.getSetmealId();
++            int number = 1;
++            ShoppingCart shoppingCart = ShoppingCart.builder().name(dishName).image(image)
++                    .userId(userId).dishId(dishId).setmealId(setMealId).dishFlavor(shoppingCartDTO.getDishFlavor())
++                    .amount(food.getPrice()).createTime(LocalDateTime.now()).number(number)
++                    .build();
++            if( shoppCartMapper.nameQueryShopCart(dishName) != null){
++                Integer nowNumber = shoppCartMapper.nameQueryShopCart(dishName).getNumber();
++                number = nowNumber + 1;
++                shoppCartMapper.changeNumber(number, dishName);
++            }
++            else{
++                shoppCartMapper.addShoppingCart(shoppingCart);
++            }
++        }
+ 
++
++    }
++
+     /*
+      * 删除购物车单个商品
+      * */
+Index: jxufe-serve/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <modelVersion>4.0.0</modelVersion>\r\n    <artifactId>jxufe-serve</artifactId>\r\n    <version>0.0.1-SNAPSHOT</version>\r\n    <name>jxufe-serve</name>\r\n    <description>jxufe-serve</description>\r\n    <parent>\r\n        <groupId>com.jxufe</groupId>\r\n        <artifactId>jxufe-take-out</artifactId>\r\n        <version>0.0.1-SNAPSHOT</version>\r\n    </parent>\r\n    <properties>\r\n        <java.version>11</java.version>\r\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\r\n        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>\r\n        <spring-boot.version>2.6.13</spring-boot.version>\r\n    </properties>\r\n    <dependencies>\r\n\r\n        <dependency>\r\n            <groupId>com.jxufe</groupId>\r\n            <artifactId>jxufe-pojo</artifactId>\r\n            <version>0.0.1-SNAPSHOT</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>com.jxufe</groupId>\r\n            <artifactId>jxufe-common</artifactId>\r\n            <version>0.0.1-SNAPSHOT</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.apache.httpcomponents</groupId>\r\n            <artifactId>httpclient</artifactId>\r\n            <version>4.5.13</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-data-redis</artifactId>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-websocket</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.jxufe</groupId>\r\n            <artifactId>jxufe-common</artifactId>\r\n            <version>0.0.1-SNAPSHOT</version>\r\n            <scope>compile</scope>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.jxufe</groupId>\r\n            <artifactId>jxufe-pojo</artifactId>\r\n            <version>0.0.1-SNAPSHOT</version>\r\n            <scope>compile</scope>\r\n        </dependency>\r\n\r\n    </dependencies>\r\n\r\n\r\n</project>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/pom.xml b/jxufe-serve/pom.xml
+--- a/jxufe-serve/pom.xml	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/pom.xml	(date 1726195905537)
+@@ -12,6 +12,7 @@
+         <version>0.0.1-SNAPSHOT</version>
+     </parent>
+     <properties>
++        <org.apache.poi.version>3.16</org.apache.poi.version>
+         <java.version>11</java.version>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+@@ -19,6 +20,18 @@
+     </properties>
+     <dependencies>
+ 
++        <dependency>
++            <groupId>org.apache.poi</groupId>
++            <artifactId>poi</artifactId>
++            <version>${org.apache.poi.version}</version>
++        </dependency>
++
++        <dependency>
++            <groupId>org.apache.poi</groupId>
++            <artifactId>poi-ooxml</artifactId>
++            <version>${org.apache.poi.version}</version>
++        </dependency>
++
+         <dependency>
+             <groupId>com.jxufe</groupId>
+             <artifactId>jxufe-pojo</artifactId>
+@@ -30,6 +43,7 @@
+             <artifactId>jxufe-common</artifactId>
+             <version>0.0.1-SNAPSHOT</version>
+         </dependency>
++
+         <dependency>
+             <groupId>org.apache.httpcomponents</groupId>
+             <artifactId>httpclient</artifactId>
+@@ -45,12 +59,14 @@
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-websocket</artifactId>
+         </dependency>
++
+         <dependency>
+             <groupId>com.jxufe</groupId>
+             <artifactId>jxufe-common</artifactId>
+             <version>0.0.1-SNAPSHOT</version>
+             <scope>compile</scope>
+         </dependency>
++
+         <dependency>
+             <groupId>com.jxufe</groupId>
+             <artifactId>jxufe-pojo</artifactId>
+Index: jxufe-serve/src/main/java/com/jxufe/controller/user/AddressBookController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.controller.user;\r\n\r\nimport com.jxufe.entity.AddressBook;\r\nimport com.jxufe.result.Result;\r\nimport com.jxufe.service.AddressBookService;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\nimport java.util.HashMap;\r\nimport java.util.List;\r\n\r\n@RestController\r\n@RequestMapping(\"/user/addressBook\")\r\n@Slf4j\r\npublic class AddressBookController {\r\n\r\n    @Autowired\r\n    private AddressBookService addressBookService;\r\n\r\n    /*\r\n    * 查询当前登录用户的所有地址信息\r\n    * */\r\n    @GetMapping(\"/list\")\r\n    public Result<List<AddressBook>> queryUserAddressBook(){\r\n\r\n        log.info(\"查询当前用户的所有地址信息\");\r\n        return Result.success(addressBookService.queryAllAddressBook());\r\n    }\r\n\r\n    /*\r\n    * 用户添加地址\r\n    * */\r\n    @PostMapping(\"\")\r\n    public Result addAddressBook(@RequestBody AddressBook addressBook){\r\n\r\n        log.info(\"正在添加地址\");\r\n        addressBookService.queryAddressBook(addressBook);\r\n        return Result.success();\r\n    }\r\n\r\n    /*\r\n    * 查询默认地址\r\n    * */\r\n    @GetMapping(\"/default\")\r\n    public Result<AddressBook> queryDefaultAddressBook(){\r\n\r\n        log.info(\"正在查询默认地址\");\r\n        AddressBook addressBook = addressBookService.queryDefaultAddressBook();\r\n        return Result.success(addressBook);\r\n    }\r\n\r\n    /*\r\n    * 设置默认地址\r\n    * */\r\n    @PutMapping(\"/default\")\r\n    public Result setDefaultAddressBook(@RequestBody HashMap<String,Integer> id){\r\n\r\n        log.info(\"正在设置默认地址\");\r\n        Integer ids = id.get(\"id\");\r\n        addressBookService.setDefaultAddressBook(ids);\r\n        return Result.success();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/controller/user/AddressBookController.java b/jxufe-serve/src/main/java/com/jxufe/controller/user/AddressBookController.java
+--- a/jxufe-serve/src/main/java/com/jxufe/controller/user/AddressBookController.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/controller/user/AddressBookController.java	(date 1726195905571)
+@@ -1,5 +1,6 @@
+ package com.jxufe.controller.user;
+ 
++import com.jxufe.context.BaseContext;
+ import com.jxufe.entity.AddressBook;
+ import com.jxufe.result.Result;
+ import com.jxufe.service.AddressBookService;
+@@ -61,4 +62,48 @@
+         addressBookService.setDefaultAddressBook(ids);
+         return Result.success();
+     }
++
++    /*
++     * 用户修改地址
++     * @param addressBook
++     * @return com.jxufe.result.Result
++     * @author 逍遥
++     * @create 2024/9/11 下午10:50
++     **/
++    @PutMapping("")
++    public Result idChangeAddressBook(@RequestBody AddressBook addressBook){
++
++        log.info("id为{}的用户正在更改地址", BaseContext.getCurrentId());
++        addressBookService.idChangeAddressBook(addressBook);
++        return Result.success();
++    }
++
++    /*
++     * 删除地址
++     * @param id
++     * @return com.jxufe.result.Result
++     * @author 逍遥
++     * @create 2024/9/11 下午11:11
++     **/
++    @DeleteMapping("")
++    public Result idDeleteAddressBook(String id){
++
++        log.info("用户正在删除地址");
++        addressBookService.idDeleteAddressBook(id);
++        return Result.success();
++    }
++
++    /*
++     * 查询地址
++     * @param id
++     * @return com.jxufe.result.Result
++     * @author 逍遥
++     * @create 2024/9/11 下午11:20
++     **/
++    @GetMapping("/{id}")
++    public Result idQueryAddressBook(@PathVariable String id){
++
++        log.info("正在查询地址");
++        return Result.success(addressBookService.idQueryAddressBook(id));
++    }
+ }
+Index: jxufe-serve/src/main/java/com/jxufe/mappers/DishMapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.mappers;\r\n\r\nimport com.jxufe.annotation.AutoFill;\r\nimport com.jxufe.dto.DishDTO;\r\nimport com.jxufe.dto.DishPageQueryDTO;\r\nimport com.jxufe.entity.Dish;\r\nimport com.jxufe.enumeration.OperationType;\r\nimport com.jxufe.vo.DishVO;\r\nimport org.apache.ibatis.annotations.Delete;\r\nimport org.apache.ibatis.annotations.Mapper;\r\nimport org.apache.ibatis.annotations.Select;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n@Mapper\r\npublic interface DishMapper {\r\n\r\n    DishVO idQueryDish(Integer id);\r\n\r\n    @Select(\"select * from dish where name = #{name}\")\r\n    Dish nameQueryDish(String name);\r\n\r\n    //获取dish里的数据\r\n    ArrayList<DishVO> pageQueryDish(DishPageQueryDTO dishPageQueryDTO);\r\n\r\n    //根据category_id获取catefory中的名字\r\n    @Select(\"select name from category where id = #{categoryId}\")\r\n    String idQueryCategory(Long id);\r\n\r\n    Long queryDish(DishPageQueryDTO dishPageQueryDTO);\r\n\r\n    @AutoFill(OperationType.UPDATE)\r\n    void updateDish(Dish dish);\r\n\r\n    void updateStatus(Integer status, Integer id);\r\n\r\n    @Delete(\"delete from dish where id = #{id}\")\r\n    void deleteDish(Integer id);\r\n\r\n    void addDish(Dish dto);\r\n\r\n    @Select(\"select * from dish where category_id = #{id}\")\r\n    List<Dish> groupDish(Integer id);\r\n\r\n    List<DishVO> userQueryDish(String id);\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/mappers/DishMapper.java b/jxufe-serve/src/main/java/com/jxufe/mappers/DishMapper.java
+--- a/jxufe-serve/src/main/java/com/jxufe/mappers/DishMapper.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/mappers/DishMapper.java	(date 1726195905630)
+@@ -16,6 +16,9 @@
+ @Mapper
+ public interface DishMapper {
+ 
++    @Select("select a.* from dish a left join setmeal_dish b on a.id = b.dish_id where b.setmeal_id = #{id}")
++    List<Dish> getBySetmealId(Long id);
++
+     DishVO idQueryDish(Integer id);
+ 
+     @Select("select * from dish where name = #{name}")
+Index: jxufe-serve/src/main/java/com/jxufe/service/impl/DishServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.service.impl;\r\n\r\nimport com.jxufe.context.BaseContext;\r\nimport com.jxufe.result.PageResult;\r\nimport com.jxufe.dto.DishDTO;\r\nimport com.jxufe.dto.DishPageQueryDTO;\r\nimport com.jxufe.entity.Dish;\r\nimport com.jxufe.entity.DishFlavor;\r\nimport com.jxufe.mappers.DishFlavorMapper;\r\nimport com.jxufe.mappers.DishMapper;\r\nimport com.jxufe.service.DishService;\r\nimport com.jxufe.vo.DishVO;\r\nimport org.springframework.beans.BeanUtils;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.beans.factory.annotation.Qualifier;\r\nimport org.springframework.beans.factory.annotation.Value;\r\nimport org.springframework.data.redis.core.ListOperations;\r\nimport org.springframework.data.redis.core.RedisTemplate;\r\nimport org.springframework.data.redis.core.ValueOperations;\r\nimport org.springframework.stereotype.Service;\r\nimport org.springframework.transaction.annotation.Transactional;\r\n\r\nimport java.time.LocalDateTime;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n\r\n@Service\r\npublic class DishServiceImpl implements DishService {\r\n\r\n    @Autowired\r\n    private DishMapper dishMapper;\r\n\r\n    @Autowired\r\n    private DishFlavorMapper dishFlavorMapper;\r\n\r\n    @Qualifier(\"redisTemplate\")\r\n    @Autowired\r\n    private RedisTemplate redisTemplate;\r\n\r\n    /*\r\n     *   id查询\r\n    * */\r\n    @Override\r\n    public DishVO idQueryDish(Integer id) {\r\n\r\n        DishVO dish = dishMapper.idQueryDish(id);\r\n        if(dish == null){\r\n            throw new RuntimeException(\"未找到该菜品\");\r\n        }\r\n        dish.setFlavors(dishFlavorMapper.getByDishId(id));\r\n        return dish;\r\n    }\r\n\r\n    /*\r\n    * 分页查询\r\n    * */\r\n    public PageResult<DishVO> pageQueryDish(DishPageQueryDTO dishPageQueryDTO){\r\n        // page:第一个开始返回的数据\r\n        int page = (dishPageQueryDTO.getPage() - 1) * dishPageQueryDTO.getPageSize() ;\r\n        dishPageQueryDTO.setPage(page);\r\n        ArrayList<DishVO> list = dishMapper.pageQueryDish(dishPageQueryDTO);\r\n        for(DishVO dish : list ){\r\n            dish.setCategoryName(dishMapper.idQueryCategory(dish.getCategoryId()));\r\n        }\r\n        Long total = dishMapper.queryDish(dishPageQueryDTO);\r\n        return new PageResult<>(total, list);\r\n    }\r\n\r\n    /*\r\n    * 修改菜品信息\r\n    * */\r\n    public void updateDish(DishDTO dto){\r\n\r\n        //删除原有的数据并插入新的菜品口味\r\n        Integer dishId = dto.getId().intValue();\r\n        dishFlavorMapper.deleteDishFlavor(dishId);\r\n        List<DishFlavor> list = dto.getFlavors();\r\n        if(list != null && !list.isEmpty()){\r\n            for(DishFlavor dishFlavor : list){\r\n                dishFlavor.setDishId(dto.getId());\r\n            }\r\n            dishFlavorMapper.insertDishFlavor(list);\r\n        }\r\n        Dish dish = new Dish();\r\n        BeanUtils.copyProperties(dto, dish);\r\n        deleteRedis(String.valueOf(dish.getCategoryId()));\r\n        dishMapper.updateDish(dish);\r\n    }\r\n\r\n    /*\r\n    * 改变菜品状态\r\n    * */\r\n    public void startORStop(String id, String status) {\r\n\r\n        Integer realStatus = Integer.valueOf(status);\r\n        DishVO dish = dishMapper.idQueryDish(Integer.valueOf(id));\r\n        if( realStatus.equals(dish.getStatus())){\r\n            throw new RuntimeException(\"修改的状态不能与原来一致\");\r\n        }\r\n        deleteRedis(String.valueOf(dish.getCategoryId()));\r\n        dishMapper.updateStatus(realStatus, Integer.valueOf(id));\r\n    }\r\n\r\n    /*\r\n    * 批量删除\r\n    * */\r\n    public void deleteDish(String[] ids){\r\n        //先查询再删除\r\n        for(String id : ids){\r\n            String categoryId = (dishMapper.idQueryDish(Integer.valueOf(id)).getCategoryId()).toString() ;\r\n            String key = \"KEY\" + categoryId;\r\n            if(dishMapper.idQueryDish(Integer.valueOf(id)) != null){\r\n                dishMapper.deleteDish(Integer.valueOf(id));\r\n            }\r\n            if(redisTemplate.opsForValue().get(key) != null){\r\n                redisTemplate.delete(key);\r\n            }\r\n        }\r\n\r\n    }\r\n\r\n    /*\r\n    * 添加菜品\r\n    * */\r\n    @Transactional\r\n    public void addDish(DishDTO dto){\r\n        Dish dish = new Dish();\r\n        BeanUtils.copyProperties(dto, dish);\r\n        dish.setCreateTime(LocalDateTime.now());\r\n        dish.setUpdateTime(LocalDateTime.now());\r\n        dishMapper.addDish(dish);\r\n        Long id = dishMapper.nameQueryDish(dto.getName()).getId();\r\n        List<DishFlavor> list = dto.getFlavors();\r\n        if(list != null && !list.isEmpty()){\r\n            for(DishFlavor dishFlavor : list){\r\n                dishFlavor.setDishId(id);\r\n            }\r\n            dishFlavorMapper.insertDishFlavor(list);\r\n        }\r\n\r\n    }\r\n\r\n    /*\r\n    * 菜品分组\r\n    * */\r\n    public List<Dish> groupDish(String id){\r\n        Integer category = Integer.valueOf(id);\r\n        List<Dish> list = dishMapper.groupDish(category);\r\n        if(list == null){\r\n            throw new RuntimeException(\"暂无该类型菜品\");\r\n        }\r\n        return list;\r\n    }\r\n\r\n    /*\r\n    * 用户端查询菜品\r\n    * */\r\n    public List<DishVO> queryDish(String categoryId){\r\n        //因为是查询每个菜品，所以不可以用集合查询，因为如果用集合的话，那就直接出来了\r\n        String key = \"KEY\" + categoryId;\r\n        ValueOperations operations = redisTemplate.opsForValue();\r\n        //根据菜品种类id查询一个种类的菜品集合\r\n        List<DishVO> list = (List<DishVO>)operations.get(key);\r\n        if(list != null && list.size() > 0){\r\n            return list;\r\n        }\r\n        list = dishMapper.userQueryDish(categoryId);\r\n        for(DishVO dishVo :  list){\r\n            dishVo.setFlavors(dishFlavorMapper.getByDishId(dishVo.getId().intValue()));\r\n        }\r\n        operations.set(key,list);\r\n        return list;\r\n    }\r\n\r\n    /*\r\n     * 删除缓存\r\n     * @param null\r\n     * @return\r\n     * @author 逍遥\r\n     * @create 2024/9/7\r\n     **/\r\n    public void deleteRedis(String categoryId){\r\n        String key = \"KEY\" + categoryId;\r\n        redisTemplate.delete(key);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/service/impl/DishServiceImpl.java b/jxufe-serve/src/main/java/com/jxufe/service/impl/DishServiceImpl.java
+--- a/jxufe-serve/src/main/java/com/jxufe/service/impl/DishServiceImpl.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/service/impl/DishServiceImpl.java	(date 1726195905601)
+@@ -142,9 +142,14 @@
+     }
+ 
+     /*
+-    * 菜品分组
+-    * */
++     * 根据categoryId查询category
++     * @param id
++     * @return java.util.List<com.jxufe.entity.Dish>
++     * @author 逍遥
++     * @create 2024/9/12 上午9:10
++     **/
+     public List<Dish> groupDish(String id){
++
+         Integer category = Integer.valueOf(id);
+         List<Dish> list = dishMapper.groupDish(category);
+         if(list == null){
+Index: jxufe-serve/src/main/java/com/jxufe/mappers/CategoryMapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.mappers;\r\n\r\nimport com.jxufe.dto.CategoryDTO;\r\nimport com.jxufe.dto.CategoryPageDTO;\r\nimport com.jxufe.entity.Category;\r\nimport org.apache.ibatis.annotations.Mapper;\r\nimport org.apache.ibatis.annotations.Select;\r\nimport org.apache.ibatis.annotations.Update;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n@Mapper\r\npublic interface CategoryMapper {\r\n\r\n    ArrayList<Category> pageQueryCategory(Integer pageSize, Integer page, String name, String type);\r\n\r\n    Long queryCategory(CategoryPageDTO dto);\r\n\r\n    void addCategory(Category category);\r\n\r\n    //类型查询分类\r\n    ArrayList<Category> categoryQuery(Integer type);\r\n\r\n    @Select(\"select * from category\")\r\n    ArrayList<Category> queryAllCategort();\r\n\r\n    void updateCategory(CategoryDTO categoryDTO);\r\n\r\n    /**\r\n     * 启用、禁用分类\r\n     *\r\n     * @param status\r\n     * @return com.jxufe.result.Result\r\n     * @author 逍遥\r\n     * @create 2024/9/7\r\n     **/\r\n    @Update(\"update category set status = #{status}, update_user = 1 where id = #{id}\")\r\n    void changeStatus(Integer status, String id);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/mappers/CategoryMapper.java b/jxufe-serve/src/main/java/com/jxufe/mappers/CategoryMapper.java
+--- a/jxufe-serve/src/main/java/com/jxufe/mappers/CategoryMapper.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/mappers/CategoryMapper.java	(date 1726195905628)
+@@ -3,6 +3,7 @@
+ import com.jxufe.dto.CategoryDTO;
+ import com.jxufe.dto.CategoryPageDTO;
+ import com.jxufe.entity.Category;
++import org.apache.ibatis.annotations.Delete;
+ import org.apache.ibatis.annotations.Mapper;
+ import org.apache.ibatis.annotations.Select;
+ import org.apache.ibatis.annotations.Update;
+@@ -37,4 +38,7 @@
+      **/
+     @Update("update category set status = #{status}, update_user = 1 where id = #{id}")
+     void changeStatus(Integer status, String id);
++
++    @Delete("delete from category where id = #{id}")
++    void deleteCategory(String id);
+ }
+Index: jxufe-pojo/src/main/java/com/jxufe/dto/OrdersPaymentDTO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.dto;\r\n\r\nimport lombok.Builder;\r\nimport lombok.Data;\r\n\r\nimport java.io.Serializable;\r\n\r\n@Data\r\n@Builder\r\npublic class OrdersPaymentDTO implements Serializable {\r\n    //订单号\r\n    private String orderNumber;\r\n\r\n    //付款方式\r\n    private Integer payMethod;\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-pojo/src/main/java/com/jxufe/dto/OrdersPaymentDTO.java b/jxufe-pojo/src/main/java/com/jxufe/dto/OrdersPaymentDTO.java
+--- a/jxufe-pojo/src/main/java/com/jxufe/dto/OrdersPaymentDTO.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-pojo/src/main/java/com/jxufe/dto/OrdersPaymentDTO.java	(date 1726195905644)
+@@ -1,12 +1,16 @@
+ package com.jxufe.dto;
+ 
++import lombok.AllArgsConstructor;
+ import lombok.Builder;
+ import lombok.Data;
++import lombok.NoArgsConstructor;
+ 
+ import java.io.Serializable;
+ 
+ @Data
+ @Builder
++@NoArgsConstructor
++@AllArgsConstructor
+ public class OrdersPaymentDTO implements Serializable {
+     //订单号
+     private String orderNumber;
+Index: jxufe-serve/src/test/java/com/jxufe/JxufeServeApplicationTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe;\r\n\r\nimport com.jxufe.controller.admin.DishController;\r\nimport com.jxufe.dto.DishDTO;\r\nimport com.jxufe.entity.Employee;\r\nimport com.jxufe.mappers.DishMapper;\r\nimport com.jxufe.mappers.OrderMapper;\r\nimport com.jxufe.service.*;\r\nimport org.junit.jupiter.api.Test;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.boot.test.context.SpringBootTest;\r\nimport org.springframework.data.redis.core.RedisTemplate;\r\n\r\n//@SpringBootTest\r\n//class JxufeServeApplicationTests {\r\n//\r\n//    @Autowired\r\n//    private WorkSpaceService service;\r\n//\r\n//    @Test\r\n//    public void test(){\r\n//       service.businessData();\r\n//    }\r\n//}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/test/java/com/jxufe/JxufeServeApplicationTests.java b/jxufe-serve/src/test/java/com/jxufe/JxufeServeApplicationTests.java
+--- a/jxufe-serve/src/test/java/com/jxufe/JxufeServeApplicationTests.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/test/java/com/jxufe/JxufeServeApplicationTests.java	(date 1726195905541)
+@@ -1,24 +1,19 @@
+ package com.jxufe;
+ 
+-import com.jxufe.controller.admin.DishController;
+-import com.jxufe.dto.DishDTO;
+-import com.jxufe.entity.Employee;
+-import com.jxufe.mappers.DishMapper;
+-import com.jxufe.mappers.OrderMapper;
+-import com.jxufe.service.*;
++import com.jxufe.config.WebSocketConfiguration;
++
+ import org.junit.jupiter.api.Test;
+-import org.springframework.beans.factory.annotation.Autowired;
++
++import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+ import org.springframework.boot.test.context.SpringBootTest;
+-import org.springframework.data.redis.core.RedisTemplate;
++
++@SpringBootTest
++@ImportAutoConfiguration(exclude = WebSocketConfiguration.class)
++class JxufeServeApplicationTests {
+ 
+-//@SpringBootTest
+-//class JxufeServeApplicationTests {
+-//
+-//    @Autowired
+-//    private WorkSpaceService service;
+-//
+-//    @Test
+-//    public void test(){
+-//       service.businessData();
+-//    }
+-//}
++
++    @Test
++    public void test(){
++        System.out.println("hello world");
++    }
++}
+Index: jxufe-serve/src/main/java/com/jxufe/controller/admin/DishController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.controller.admin;\r\n\r\nimport com.jxufe.dto.DishDTO;\r\nimport com.jxufe.dto.DishPageQueryDTO;\r\nimport com.jxufe.entity.Dish;\r\nimport com.jxufe.result.Result;\r\nimport com.jxufe.service.impl.DishServiceImpl;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\nimport java.util.List;\r\n\r\n@Slf4j\r\n@RestController\r\n@RequestMapping(\"/admin/dish\")\r\npublic class DishController {\r\n\r\n    @Autowired\r\n    private DishServiceImpl dishService;\r\n\r\n    /*\r\n    * 根据id查询菜品\r\n    * */\r\n    @GetMapping(\"{id}\")\r\n    public Result<Object> idQueryDish(@PathVariable String id){\r\n\r\n        log.info(\"正在查询id为{}的菜品\", id);\r\n        return Result.success(dishService.idQueryDish(Integer.valueOf(id)));\r\n    }\r\n\r\n    /*\r\n    * 根据菜品分页查询\r\n    * */\r\n    @GetMapping(\"/page\")\r\n    public Result<Object> pageQueryDish(DishPageQueryDTO dishPageQueryDTO){\r\n\r\n        log.info(\"正在分页查询菜品\");\r\n        return Result.success(dishService.pageQueryDish(dishPageQueryDTO));\r\n    }\r\n\r\n    /*\r\n    * 修改菜品信息\r\n    * */\r\n    @PutMapping(\"\")\r\n    public Result<Object> editDish(@RequestBody DishDTO dto){\r\n\r\n        log.info(\"正在修改菜品信息\");\r\n        dishService.updateDish(dto);\r\n        return Result.success();\r\n    }\r\n\r\n    /*\r\n    * 修改菜品状态\r\n    * */\r\n    @PostMapping(\"/status/{status}\")\r\n    public Result<Object> startOrStop(@PathVariable String status,\r\n                                                    String  id){\r\n\r\n        log.info(\"正在修改菜品{}的状态\", id);\r\n        dishService.startORStop(id, status);\r\n        return Result.success();\r\n    }\r\n\r\n    /*\r\n    * 批量删除菜品\r\n    * */\r\n    @DeleteMapping(\"\")\r\n    public Result<Object> deleteDish(@RequestParam(name = \"ids\") String[] ids){\r\n        log.info(\"正在批量删除菜品\");\r\n        dishService.deleteDish(ids);\r\n        return Result.success();\r\n    }\r\n\r\n    /*\r\n    * 增加菜品\r\n    * */\r\n    @PostMapping(\"\")\r\n    public Result<Object> addDish(@RequestBody DishDTO dish){\r\n        log.info(\"正在添加{}菜品\", dish.getName());\r\n        dishService.addDish(dish);\r\n        return Result.success();\r\n    }\r\n\r\n    /*@Param 菜品种类id\r\n    * 菜品分组\r\n    * */\r\n    @GetMapping(\"/list\")\r\n    public Result<List<Dish>> groupDish(String id){\r\n        log.info(\"正在根据分类id查询菜品\");\r\n        List<Dish> list = dishService.groupDish(id);\r\n        return Result.success(list);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/controller/admin/DishController.java b/jxufe-serve/src/main/java/com/jxufe/controller/admin/DishController.java
+--- a/jxufe-serve/src/main/java/com/jxufe/controller/admin/DishController.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/controller/admin/DishController.java	(date 1726195905564)
+@@ -67,6 +67,7 @@
+     * */
+     @DeleteMapping("")
+     public Result<Object> deleteDish(@RequestParam(name = "ids") String[] ids){
++
+         log.info("正在批量删除菜品");
+         dishService.deleteDish(ids);
+         return Result.success();
+@@ -77,16 +78,21 @@
+     * */
+     @PostMapping("")
+     public Result<Object> addDish(@RequestBody DishDTO dish){
++
+         log.info("正在添加{}菜品", dish.getName());
+         dishService.addDish(dish);
+         return Result.success();
+     }
+ 
+-    /*@Param 菜品种类id
+-    * 菜品分组
+-    * */
++    /*
++     * 根据categoryId查询category
++     * @param id
++     * @return java.util.List<com.jxufe.entity.Dish>
++     * @author 逍遥
++     * @create 2024/9/12 上午9:10
++     **/
+     @GetMapping("/list")
+-    public Result<List<Dish>> groupDish(String id){
++    public Result<List<Dish>> groupDish(@RequestParam(value = "categoryId") String id){
+         log.info("正在根据分类id查询菜品");
+         List<Dish> list = dishService.groupDish(id);
+         return Result.success(list);
+Index: jxufe-pojo/src/main/java/com/jxufe/dto/ShoppingCartDTO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.dto;\r\n\r\nimport lombok.Data;\r\n\r\nimport java.io.Serializable;\r\n\r\n@Data\r\npublic class ShoppingCartDTO implements Serializable {\r\n\r\n    private Long dishId;\r\n\r\n    private Long setMealId;\r\n\r\n    private String dishFlavor;\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-pojo/src/main/java/com/jxufe/dto/ShoppingCartDTO.java b/jxufe-pojo/src/main/java/com/jxufe/dto/ShoppingCartDTO.java
+--- a/jxufe-pojo/src/main/java/com/jxufe/dto/ShoppingCartDTO.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-pojo/src/main/java/com/jxufe/dto/ShoppingCartDTO.java	(date 1726195905646)
+@@ -9,7 +9,7 @@
+ 
+     private Long dishId;
+ 
+-    private Long setMealId;
++    private Long setmealId;
+ 
+     private String dishFlavor;
+ 
+Index: jxufe-serve/src/main/java/com/jxufe/controller/admin/CategoryController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.jxufe.controller.admin;\r\n\r\nimport com.jxufe.dto.CategoryDTO;\r\nimport com.jxufe.dto.CategoryPageDTO;\r\nimport com.jxufe.entity.Category;\r\nimport com.jxufe.result.PageResult;\r\nimport com.jxufe.result.Result;\r\nimport com.jxufe.service.CategoryService;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\nimport java.util.List;\r\n\r\n@Slf4j\r\n@RestController\r\n@RequestMapping(\"/admin/category\")\r\npublic class CategoryController {\r\n\r\n    @Autowired\r\n    private CategoryService categoryService;\r\n\r\n    /*\r\n    * 分类分页查询\r\n    * */\r\n    @GetMapping(\"/page\")\r\n    public Result<PageResult<Category>> categoryQuery(CategoryPageDTO dto){\r\n\r\n        log.info(\"正在分类分页查询\");\r\n        long total = categoryService.categoryPageQuery(dto).getTotal();\r\n        List<Category> list = categoryService.categoryPageQuery(dto).getRecords();\r\n        return Result.success(new PageResult<>(total, list));\r\n    }\r\n\r\n    /*\r\n    * 增加分类\r\n    * */\r\n    @PostMapping(\"\")\r\n    public Result<Object> addCategory(@RequestBody CategoryDTO dto){\r\n\r\n        log.info(\"正在增加分类\");\r\n        categoryService.addCategory(dto);\r\n        return Result.success();\r\n    }\r\n\r\n    /*\r\n    * 类型查询分类\r\n    * */\r\n    @GetMapping(\"/list\")\r\n    public Result<List<Category>> categoryQuery(Integer type){\r\n\r\n        log.info(\"正在进行查询分类\");\r\n        return Result.success(categoryService.categoryQuery(type));\r\n    }\r\n\r\n    /*\r\n    * @param categoryType\r\n    * 修改分类\r\n    * */\r\n    @PutMapping(\"\")\r\n    public Result updateCategory(@RequestBody CategoryDTO dto){\r\n        log.info(\"正在修改菜品{}的信息,\", dto.getName());\r\n        categoryService.updateCategory(dto);\r\n        return Result.success();\r\n    }\r\n\r\n    /**\r\n     * 启用、禁用分类\r\n     * @param status\r\n     * @return com.jxufe.result.Result\r\n     * @author 逍遥\r\n     * @create 2024/9/7\r\n     **/\r\n    @PostMapping(\"/status/{status}\")\r\n    public Result changeStatue(@PathVariable String status, String id){\r\n\r\n        log.info(\"正在启用、禁用分类\");\r\n        categoryService.changeStatue(status, id);\r\n        return Result.success();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/jxufe-serve/src/main/java/com/jxufe/controller/admin/CategoryController.java b/jxufe-serve/src/main/java/com/jxufe/controller/admin/CategoryController.java
+--- a/jxufe-serve/src/main/java/com/jxufe/controller/admin/CategoryController.java	(revision 8da812448335ab8fe77c349f9515d6101e199f92)
++++ b/jxufe-serve/src/main/java/com/jxufe/controller/admin/CategoryController.java	(date 1726195905562)
+@@ -78,4 +78,19 @@
+         categoryService.changeStatue(status, id);
+         return Result.success();
+     }
++
++    /*
++     * 商家根据id删除分类
++     * @param id
++     * @return com.jxufe.result.Result
++     * @author 逍遥
++     * @create 2024/9/12 上午9:25
++     **/
++    @DeleteMapping("")
++    public Result deleteCategory(String id){
++
++        log.info("商家正在根据删除id为{}的分类", id);
++        categoryService.deleteCategory(id);
++        return Result.success();
++    }
+ }
